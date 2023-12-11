@@ -14,6 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 using System.Xml.Linq;
 using static System.Windows.Forms.DataFormats;
 using Project_for_DB.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Project_for_DB
 {
@@ -64,13 +65,26 @@ namespace Project_for_DB
                 dataGridView1.Columns[5].HeaderText = "Дата";
                 dataGridView1.Columns[6].HeaderText = "Номер двери";
                 dataGridView1.Columns[7].HeaderText = "Адрес";
-                dataGridView1.Columns[8].HeaderText = "Закрыто";
+                dataGridView1.Columns[8].HeaderText = "Открывали?";
                 dataGridView1.Columns[9].Visible = false;
                 dataGridView1.Columns[10].Visible = false;
                 dataGridView1.Columns[11].Visible = false;
                 dataGridView1.Columns[12].Visible = false;
+                dataGridView1.CellClick += dataGridView1_CellContentClick;
+
+                comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+
+                var l = from user in db.Users.AsNoTracking()
+                        select new FromUserClass()
+                        {
+                            login = user.Login,
+                        };
+                var auditList1 = l.ToList();
+                comboBox1.DataSource = auditList1;
+                comboBox1.DisplayMember = "login";
+                comboBox1.ValueMember = "login";
+                comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             }
-            dataGridView1.CellClick += dataGridView1_CellContentClick;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -100,6 +114,51 @@ namespace Project_for_DB
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string condition = "";
+            using (DoorContext db = new DoorContext())
+            {
+                var q = from audit in db.Audits.AsNoTracking()
+                        join user in db.Users.AsNoTracking()
+                        on audit.Login equals user.Login
+                        join departament in db.Departaments.AsNoTracking()
+                        on user.DepartamentId equals departament.Id
+                        join locks in db.Locks.AsNoTracking()
+                        on new { IdDoor = audit.IdDoor, IdStreet = audit.IdStreet } equals new { IdDoor = locks.Id, IdStreet = locks.IdStreet }
+                        join adress in db.Adresses.AsNoTracking()
+                        on locks.IdStreet equals adress.Id
+                        select new FromBigAuditClass()
+                        {
+                            number = audit.Number,
+                            login = audit.Login,
+                            name = user.Name,
+                            sname = user.Sname,
+                            departament = departament.Name,
+                            date = audit.Date,
+                            iddoor = locks.Id,
+                            closed = audit.Closed,
+                            street = adress.Street,
+                            numberst = adress.Number,
+                            building = adress.Building
+                        };
+                var auditList = q.ToList();
+                foreach (var adress in auditList)
+                {
+                    if (adress.building == null)
+                        adress.fulladress = $" ул.{adress.street} {adress.numberst} ";
+                    else
+                        adress.fulladress = $" ул.{adress.street} {adress.numberst} корпус.{adress.building}";
+                }
+                dataGridView1.DataSource = auditList;
+            }
         }
     }
 }

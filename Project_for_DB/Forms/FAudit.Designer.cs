@@ -30,6 +30,9 @@
         {
             dataGridView1 = new DataGridView();
             button1 = new Button();
+            comboBox1 = new ComboBox();
+            label1 = new Label();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -55,17 +58,49 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(667, 30);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 2;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(667, 12);
+            label1.Name = "label1";
+            label1.Size = new Size(41, 15);
+            label1.TabIndex = 3;
+            label1.Text = "Логин";
+            // 
+            // button3
+            // 
+            button3.Location = new Point(667, 59);
+            button3.Name = "button3";
+            button3.Size = new Size(129, 34);
+            button3.TabIndex = 4;
+            button3.Text = "Обновить";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // FAudit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
+            Controls.Add(label1);
+            Controls.Add(comboBox1);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "FAudit";
             Text = "FAudit";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -73,5 +108,8 @@
         private DataGridView dataGridView1;
         private Button button1;
         private Button button2;
+        private ComboBox comboBox1;
+        private Label label1;
+        private Button button3;
     }
 }

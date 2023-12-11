@@ -40,6 +40,7 @@
             comboBox1 = new ComboBox();
             comboBox2 = new ComboBox();
             comboBox3 = new ComboBox();
+            button3 = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -154,11 +155,22 @@
             comboBox3.TabIndex = 20;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
+            // button3
+            // 
+            button3.Location = new Point(110, 415);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 21;
+            button3.Text = "Удалить";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // FUpBigAudit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(359, 450);
+            Controls.Add(button3);
             Controls.Add(comboBox3);
             Controls.Add(comboBox2);
             Controls.Add(comboBox1);
@@ -191,5 +203,6 @@
         private ComboBox comboBox1;
         private ComboBox comboBox2;
         private ComboBox comboBox3;
+        private Button button3;
     }
 }

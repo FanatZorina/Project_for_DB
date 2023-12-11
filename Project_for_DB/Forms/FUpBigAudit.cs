@@ -166,7 +166,7 @@ namespace Project_for_DB.Forms
                         temp1.Login = comboBox1.Text;
                         temp1.IdDoor = Convert.ToInt32(comboBox3.Text);
                         temp1.IdStreet = Convert.ToInt32(comboBox2.SelectedValue);
-                        temp1.Date = DateTime.Parse(textBox8.Text);                      
+                        temp1.Date = DateTime.Parse(textBox8.Text);
                         db.Audits.Update(temp1);
                         db.SaveChanges();
                     }
@@ -203,11 +203,54 @@ namespace Project_for_DB.Forms
                         else
                             adress.fulladress = $" ул.{adress.street} {adress.numberst} корпус.{adress.building}";
                     }
-                    dg.DataSource = auditList;                                   
+                    dg.DataSource = auditList;
                 }
                 Close();
             }
             else { MessageBox.Show("Заполните поля"); }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (DoorContext db = new DoorContext())
+            {              
+                db.Audits.Remove(db.Audits.AsNoTracking().Where(x => x.Number == Convert.ToInt32(textBox1.Text)).FirstOrDefault());
+                db.SaveChanges();
+
+                var q = from audit in db.Audits.AsNoTracking()
+                        join user in db.Users.AsNoTracking()
+                        on audit.Login equals user.Login
+                        join departament in db.Departaments.AsNoTracking()
+                        on user.DepartamentId equals departament.Id
+                        join locks in db.Locks.AsNoTracking()
+                        on new { IdDoor = audit.IdDoor, IdStreet = audit.IdStreet } equals new { IdDoor = locks.Id, IdStreet = locks.IdStreet }
+                        join adress in db.Adresses.AsNoTracking()
+                        on locks.IdStreet equals adress.Id
+                        select new FromBigAuditClass()
+                        {
+                            number = audit.Number,
+                            login = audit.Login,
+                            name = user.Name,
+                            sname = user.Sname,
+                            departament = departament.Name,
+                            date = audit.Date,
+                            iddoor = locks.Id,
+                            closed = audit.Closed,
+                            street = adress.Street,
+                            numberst = adress.Number,
+                            building = adress.Building
+                        };
+                var auditList = q.ToList();
+                foreach (var adress in auditList)
+                {
+                    if (adress.building == null)
+                        adress.fulladress = $" ул.{adress.street} {adress.numberst} ";
+                    else
+                        adress.fulladress = $" ул.{adress.street} {adress.numberst} корпус.{adress.building}";
+                }
+                dg.DataSource = auditList;
+            }
+            Close();
         }
     }
 }

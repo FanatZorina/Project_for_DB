@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace Project_for_DB.Forms
 {
@@ -28,7 +29,7 @@ namespace Project_for_DB.Forms
 
                 bool cl = db.Locks.AsNoTracking().Where(x => x.Id == iddoor && x.IdStreet == idstreet).Select(x => x.Closed).FirstOrDefault();
                 var result = db.Adresses.Where(x => x.Id == idstreet).Select(a => $" ул.{a.Street} дом.{a.Number} {a.Building}").FirstOrDefault();
-                if (cl == false)
+                if (cl == true)
                 {
                     button1.Visible = true;
                     label1.Text = " Аудитория " + Convert.ToString(iddoor) + " по адресу " + result + " закрыта ";
@@ -46,7 +47,7 @@ namespace Project_for_DB.Forms
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            using (DoorContext enty = new DoorContext())
+            using (DoorContext db = new DoorContext())
             {
 
                 Audit adudit = new Audit()
@@ -57,8 +58,15 @@ namespace Project_for_DB.Forms
                     Login = glogin,
                     Closed = true
                 };
-                enty.Audits.Add(adudit);
-                enty.SaveChanges();
+                db.Audits.Add(adudit);
+                var temp1 = db.Locks.FirstOrDefault(s => s.Id == giddoor && s.IdStreet == gidstreet);
+                if (temp1 != null)
+                {
+                    temp1.Closed = false;
+                    db.Locks.Update(temp1);
+                    db.SaveChanges();
+                }
+                db.SaveChanges();
 
             }
             Close();
@@ -66,7 +74,7 @@ namespace Project_for_DB.Forms
         private void button2_Click(object sender, EventArgs e)
         {
             
-                using (DoorContext enty = new DoorContext())
+                using (DoorContext db = new DoorContext())
                 {
                     
                     Audit adudit = new Audit()
@@ -76,10 +84,17 @@ namespace Project_for_DB.Forms
                         IdStreet = gidstreet,
                         Login = glogin,
                         Closed = false
-                    };
-                    enty.Audits.Add(adudit);
-                    enty.SaveChanges();
-                }         
+                    };                  
+                    db.Audits.Add(adudit);
+                    var temp1 = db.Locks.FirstOrDefault(s => s.Id == giddoor && s.IdStreet == gidstreet);
+                    if (temp1 != null)
+                    {
+                        temp1.Closed = true;
+                        db.Locks.Update(temp1);
+                        db.SaveChanges();
+                    }
+                    db.SaveChanges();
+            }         
                 Close();           
         }
         private void button3_Click(object sender, EventArgs e)
