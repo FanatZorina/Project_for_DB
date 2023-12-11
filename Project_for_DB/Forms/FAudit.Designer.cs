@@ -63,7 +63,7 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(667, 30);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
+            comboBox1.Size = new Size(129, 23);
             comboBox1.TabIndex = 2;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
