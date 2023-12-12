@@ -18,18 +18,8 @@ namespace Project_for_DB.Forms
             InitializeComponent();
             using (DoorContext db = new DoorContext())
             {
-                var q = from Lock in db.Locks.AsNoTracking()
-                        join Adress in db.Adresses.AsNoTracking()
-                        on Lock.IdStreet equals Adress.Id
-                        select new FromLockClass()
-                        {
-                            Id = Lock.Id,
-                            Level = Lock.Level,
-                            Closed = Lock.Closed,
-                            Id_street = Lock.IdStreet,
-                            fulladress = Convert.ToString("ул." + Adress.Street + " дом." + Adress.Number + " " + Adress.Building)
-                        };
-                var auditList = q.ToList();
+                
+                var auditList = Metods.ViewLock().ToList(); 
                 dataGridView1.DataSource = auditList;
                 dataGridView1.Columns["Id"].HeaderText = "Номер";
                 dataGridView1.Columns["fulladress"].HeaderText = "Улица";

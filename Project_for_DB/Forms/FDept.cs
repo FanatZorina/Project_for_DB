@@ -15,23 +15,13 @@ namespace Project_for_DB.Forms
     {
         public FDept()
         {
-            InitializeComponent();
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from Departament in db.Departaments.AsNoTracking()
-                        select new FromDeptClass()
-                        {
-                            Id = Departament.Id,
-                            name = Departament.Name,
-                            number = Departament.Number
-                        };
-                var auditList = q.ToList();
+            InitializeComponent();              
+                var auditList = Metods.ViewDept().ToList(); ;
                 dataGridView1.DataSource = auditList;
                 dataGridView1.Columns[0].HeaderText = "Номер";
                 dataGridView1.Columns[1].HeaderText = "Название";
                 dataGridView1.Columns[2].HeaderText = "Колл.людей";
-                dataGridView1.ReadOnly = true;
-            }
+                dataGridView1.ReadOnly = true;          
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,10 +35,10 @@ namespace Project_for_DB.Forms
         private void button2_Click(object sender, EventArgs e)
         {
             
-            FUpDept fupdept = new FUpDept();
-            fupdept.Tag = this;
-            fupdept.dg = this.dataGridView1;
-            fupdept.Show(this);
+            FUpDept fuprecord = new FUpDept();
+            fuprecord.Tag = this;
+            fuprecord.dg = this.dataGridView1;
+            fuprecord.Show(this);
         }
 
         private void button3_Click(object sender, EventArgs e)

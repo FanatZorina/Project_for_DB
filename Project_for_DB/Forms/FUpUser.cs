@@ -25,45 +25,22 @@ namespace Project_for_DB.Forms
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from user in db.Users.AsNoTracking()
-                        join Departament in db.Departaments.AsNoTracking()
-                        on user.DepartamentId equals Departament.Id
-                        select new FromUserClass()
-                        {
-                            login = user.Login,
-                            password = user.Password,
-                            name = user.Name,
-                            sname = user.Sname,
-                            level = user.Level,
-                            departament_name = Departament.Name
-                        };
-                var auditList = q.ToList();
-                comboBox1.DataSource = auditList;
-                comboBox1.DisplayMember = "login";
-                comboBox1.ValueMember = "login";
-                comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+          
+            var auditList = Metods.ViewUser().ToList();
+            comboBox1.DataSource = auditList;
+            comboBox1.DisplayMember = "login";
+            comboBox1.ValueMember = "login";
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
 
+            var auditList1 = Metods.ViewDept().ToList(); 
+            comboBox3.DataSource = auditList1;
+            comboBox3.DisplayMember = "Name";
+            comboBox3.ValueMember = "Id";
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
 
-                var d = from departament in db.Departaments.AsNoTracking()
-                        select new FromDeptClass()
-                        {
-                            Id = departament.Id,
-                            name = departament.Name,
-                            number = departament.Number,
-
-                        };
-                var auditList1 = d.ToList();
-
-                comboBox3.DataSource = auditList1;
-                comboBox3.DisplayMember = "Name";
-                comboBox3.ValueMember = "Id";
-                comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
-
-                List<int> level = new List<int> { 1, 2, 3, 4, 5 };
-                comboBox2.DataSource = level;
-            }
+            List<int> level = new List<int> { 1, 2, 3, 4, 5 };
+            comboBox2.DataSource = level;
+            
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -125,20 +102,8 @@ namespace Project_for_DB.Forms
                         db.SaveChanges();
                     }
                     db.SaveChanges();
-
-                    var q = from user in db.Users.AsNoTracking()
-                            join Departament in db.Departaments.AsNoTracking()
-                            on user.DepartamentId equals Departament.Id
-                            select new FromUserClass()
-                            {
-                                login = user.Login,
-                                password = user.Password,
-                                name = user.Name,
-                                sname = user.Sname,
-                                level = user.Level,
-                                departament_name = Departament.Name
-                            };
-                    var auditList = q.ToList();
+                  
+                    var auditList = Metods.ViewUser().ToList();
                     dg.DataSource = auditList;
 
                 }

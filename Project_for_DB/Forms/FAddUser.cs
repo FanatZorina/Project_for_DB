@@ -20,23 +20,12 @@ namespace Project_for_DB.Forms
             InitializeComponent();
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from departament in db.Departaments.AsNoTracking()
-                        select new FromDeptClass()
-                        {
-                            Id = departament.Id,
-                            name = departament.Name,
-                            number = departament.Number,
-
-                        };
-                var auditList = q.ToList();
-
-                comboBox2.DataSource = auditList;
-                comboBox2.DisplayMember = "name";
-                comboBox2.ValueMember = "Id";
-                comboBox2.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
+            
+            var auditList = Metods.ViewDept().ToList(); ;
+            comboBox2.DataSource = auditList;
+            comboBox2.DisplayMember = "name";
+            comboBox2.ValueMember = "Id";
+            comboBox2.SelectedIndexChanged += comboBox1_SelectedIndexChanged;          
 
             List<int> level = new List<int> { 1, 2, 3, 4, 5 };
             comboBox1.DataSource = level;

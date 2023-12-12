@@ -58,21 +58,10 @@ namespace Project_for_DB.Forms
 
                 }
 
-                using (DoorContext db = new DoorContext())
-                {
-
-                    var q = from departament in db.Departaments.AsNoTracking()
-                            select new FromDeptClass()
-                            {
-                                Id = departament.Id,
-                                name = departament.Name,
-                                number = departament.Number
-
-                            };
-                    var auditList = q.ToList();
+                    var auditList = Metods.ViewDept().ToList();
                     dg.DataSource = auditList;
 
-                }
+                
                 Close();
             }
             else

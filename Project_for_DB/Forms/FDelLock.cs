@@ -21,26 +21,14 @@ namespace Project_for_DB.Forms
             InitializeComponent();
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from Lock in db.Locks.AsNoTracking()
-                        join Adress in db.Adresses.AsNoTracking()
-                        on Lock.IdStreet equals Adress.Id
-                        select new FromLockClass()
-                        {
-                            Id = Lock.Id,
-                            Id_street = Lock.IdStreet,
-                            Level = Lock.Level,
-                            Closed = Lock.Closed,
-                            fulladress = Convert.ToString("Номер" + Lock.Id + "ул." + Adress.Street + " дом." + Adress.Number + " " + Adress.Building)
-                        };
-                var auditList = q.ToList();
+
+                var auditList = Metods.ViewLock().ToList();
 
                 comboBox1.DataSource = auditList;
                 comboBox1.DisplayMember = "fulladress";
                 comboBox1.ValueMember = "Id";
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

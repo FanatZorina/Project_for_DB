@@ -36,7 +36,7 @@ namespace Project_for_DB
 
 
     }
-    public class TempClass
+    public class FromAdressClass
     {
         public int Id { get; set; }
         public string street { get; set; }

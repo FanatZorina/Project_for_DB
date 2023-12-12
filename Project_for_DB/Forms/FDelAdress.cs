@@ -22,16 +22,7 @@ namespace Project_for_DB
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             using (DoorContext db = new DoorContext())
             {
-                var q = from adress in db.Adresses.AsNoTracking()
-                        select new TempClass()
-                        {
-                            Id = adress.Id,
-                            street = adress.Street,
-                            number = adress.Number,
-                            building = adress.Building,
-                            fulladress = ""
-                        };
-                var auditList = q.ToList();
+                var auditList = Metods.ViewAdress().ToList();
 
                 foreach (var adress in auditList)
                 {
@@ -57,7 +48,7 @@ namespace Project_for_DB
         {
             if (comboBox1.SelectedItem != null)
             {
-                TempClass selectedAddress = (TempClass)comboBox1.SelectedItem;
+                FromAdressClass selectedAddress = (FromAdressClass)comboBox1.SelectedItem;
 
                 textBox1.Text = Convert.ToString(selectedAddress.Id);
                 textBox2.Text = selectedAddress.street;
@@ -121,7 +112,7 @@ namespace Project_for_DB
                 enty.SaveChanges();
                 
                     var q = from adress in enty.Adresses.AsNoTracking()
-                            select new TempClass()
+                            select new FromAdressClass()
                             {
                                 Id = adress.Id,
                                 street = adress.Street,

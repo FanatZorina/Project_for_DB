@@ -20,16 +20,8 @@ namespace Project_for_DB
             InitializeComponent();
 
             using (DoorContext db = new DoorContext())
-            {
-                var q = from adress in db.Adresses.AsNoTracking()
-                        select new TempClass()
-                        {
-                            Id = adress.Id,
-                            street = adress.Street,
-                            number = adress.Number,
-                            building = adress.Building
-                        };
-                var auditList = q.ToList();
+            {               
+                var auditList = Metods.ViewAdress().ToList(); ;
                 dataGridView1.DataSource = auditList;
                 dataGridView1.Columns[0].HeaderText = "Индификатор";
                 dataGridView1.Columns[1].HeaderText = "Улица";

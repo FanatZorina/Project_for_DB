@@ -20,29 +20,20 @@ namespace Project_for_DB.Forms
         public FUpLock()
         {
             InitializeComponent();
+            textBox1.KeyPress += new KeyPressEventHandler(textBox1_KeyPress);
+            textBox1.KeyPress += new KeyPressEventHandler(textBox1_KeyPress);
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from Lock in db.Locks.AsNoTracking()
-                        join Adress in db.Adresses.AsNoTracking()
-                        on Lock.IdStreet equals Adress.Id
-                        select new FromLockClass()
-                        {
-                            Id = Lock.Id,
-                            Id_street = Lock.IdStreet,
-                            Level = Lock.Level,
-                            Closed = Lock.Closed,
-                            fulladress = Convert.ToString("Номер" + Lock.Id + "ул." + Adress.Street + " дом." + Adress.Number + " " + Adress.Building)
-                        };
-                var auditList = q.ToList();
+
+                
+                var auditList = Metods.ViewLock().ToList();
 
                 comboBox1.DataSource = auditList;
                 comboBox1.DisplayMember = "fulladress";
                 comboBox1.ValueMember = "Id";
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
+
             List<int> level = new List<int> { 1, 2, 3, 4, 5 };
             comboBox2.DataSource = level;
         }
@@ -100,18 +91,7 @@ namespace Project_for_DB.Forms
                     }
                     db.SaveChanges();
 
-                    var q = from Lock in db.Locks.AsNoTracking()
-                            join Adress in db.Adresses.AsNoTracking()
-                            on Lock.IdStreet equals Adress.Id
-                            select new FromLockClass()
-                            {
-                                Id = Lock.Id,
-                                Id_street = Lock.IdStreet,
-                                Level = Lock.Level,
-                                Closed = Lock.Closed,
-                                fulladress = Convert.ToString("ул." + Adress.Street + " дом." + Adress.Number + " " + Adress.Building)
-                            };
-                    var auditList = q.ToList();
+                    var auditList = Metods.ViewLock().ToList();
                     dg.DataSource = auditList;
 
                 }
@@ -133,6 +113,13 @@ namespace Project_for_DB.Forms
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

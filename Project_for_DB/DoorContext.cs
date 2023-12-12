@@ -51,9 +51,7 @@ public partial class DoorContext : DbContext
 
             entity.ToTable("audit");
 
-            entity.Property(e => e.Number)
-                .ValueGeneratedNever()
-                .HasColumnName("number");
+            entity.Property(e => e.Number).HasColumnName("number");
             entity.Property(e => e.Closed).HasColumnName("closed");
             entity.Property(e => e.Date)
                 .HasColumnType("timestamp without time zone")
@@ -66,6 +64,7 @@ public partial class DoorContext : DbContext
 
             entity.HasOne(d => d.LoginNavigation).WithMany(p => p.Audits)
                 .HasForeignKey(d => d.Login)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("audit_login_fkey");
 
             entity.HasOne(d => d.Id).WithMany(p => p.Audits)
@@ -127,6 +126,7 @@ public partial class DoorContext : DbContext
 
             entity.HasOne(d => d.Departament).WithMany(p => p.Users)
                 .HasForeignKey(d => d.DepartamentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("users_departament_id_fkey");
         });
 

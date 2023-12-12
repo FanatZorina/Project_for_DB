@@ -20,26 +20,11 @@ namespace Project_for_DB.Forms
             InitializeComponent();
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from user in db.Users.AsNoTracking()
-                        join Departament in db.Departaments.AsNoTracking()
-                        on user.DepartamentId equals Departament.Id
-                        select new FromUserClass()
-                        {
-                            login = user.Login,
-                            password = user.Password,
-                            name = user.Name,
-                            sname = user.Sname,
-                            level = user.Level,
-                            departament_name = Departament.Name
-                        };
-                var auditList = q.ToList();
-                comboBox1.DataSource = auditList;
-                comboBox1.DisplayMember = "login";
-                comboBox1.ValueMember = "login";
-                comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
+            var auditList = Metods.ViewUser().ToList(); 
+            comboBox1.DataSource = auditList;
+            comboBox1.DisplayMember = "login";
+            comboBox1.ValueMember = "login";
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;         
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

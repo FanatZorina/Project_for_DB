@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
             button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -46,33 +43,6 @@
             dataGridView1.Size = new Size(649, 426);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(667, 328);
-            button1.Name = "button1";
-            button1.Size = new Size(121, 23);
-            button1.TabIndex = 1;
-            button1.Text = "Добавить";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(667, 357);
-            button2.Name = "button2";
-            button2.Size = new Size(121, 23);
-            button2.TabIndex = 2;
-            button2.Text = "Редактировать";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(667, 386);
-            button3.Name = "button3";
-            button3.Size = new Size(121, 23);
-            button3.TabIndex = 3;
-            button3.Text = "Удалить";
-            button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
@@ -90,9 +60,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "FRecord";
             Text = "FRecord";
@@ -103,9 +70,6 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
         private Button button4;
     }
 }

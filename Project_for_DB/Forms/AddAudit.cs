@@ -20,18 +20,8 @@ namespace Project_for_DB
             InitializeComponent();
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             textBox3.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from adress in db.Adresses.AsNoTracking()
-                        select new TempClass()
-                        {
-                            Id = adress.Id,
-                            street = adress.Street,
-                            number = adress.Number,
-                            building = adress.Building,
-                            fulladress = ""
-                        };
-                var auditList = q.ToList();
+
+                var auditList = Metods.ViewAdress().ToList();
 
                 foreach (var adress in auditList)
                 {
@@ -46,8 +36,6 @@ namespace Project_for_DB
                 comboBox1.ValueMember = "Id";
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
 
-
-            }
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -80,7 +68,7 @@ namespace Project_for_DB
             {
                 if (enty.Users.AsNoTracking().Where(x => x.Login == textBox1.Text && x.Password == textBox2.Text).FirstOrDefault() != null)
                 {
-                    TempClass selectedlock = (TempClass)comboBox1.SelectedItem;
+                    FromAdressClass selectedlock = (FromAdressClass)comboBox1.SelectedItem;
                     if (enty.Locks.AsNoTracking().Where(x => x.IdStreet == selectedlock.Id && x.Id == Convert.ToInt32(textBox3.Text)).FirstOrDefault() != null)
                     {
                         OpenOrClose ooc = new OpenOrClose(textBox1.Text, Convert.ToInt32(textBox3.Text), selectedlock.Id);

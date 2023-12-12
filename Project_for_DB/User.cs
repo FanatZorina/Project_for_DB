@@ -19,5 +19,5 @@ public partial class User
 
     public virtual ICollection<Audit> Audits { get; set; } = new List<Audit>();
 
-    public virtual Departament? Departament { get; set; }
+    public virtual Departament Departament { get; set; } = null!;
 }

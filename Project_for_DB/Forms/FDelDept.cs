@@ -21,23 +21,14 @@ namespace Project_for_DB.Forms
             InitializeComponent();
             comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from departament in db.Departaments.AsNoTracking()
-                        select new FromDeptClass()
-                        {
-                            Id = departament.Id,
-                            name = departament.Name,
-                            number = departament.Number,
-
-                        };
-                var auditList = q.ToList();
+             
+                var auditList = Metods.ViewDept().ToList();
 
                 comboBox1.DataSource = auditList;
                 comboBox1.DisplayMember = "Name";
                 comboBox1.ValueMember = "Id";
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -72,15 +63,8 @@ namespace Project_for_DB.Forms
                 enty.Departaments.Remove(enty.Departaments.AsNoTracking().Where(x => x.Id == Convert.ToInt32(textBox1.Text)).FirstOrDefault());
                 enty.SaveChanges();
 
-                var q = from departament in enty.Departaments.AsNoTracking()
-                        select new FromDeptClass()
-                        {
-                            Id = departament.Id,
-                            name = departament.Name,
-                            number = departament.Number,
-
-                        };
-                var auditList = q.ToList();
+               
+                var auditList = Metods.ViewDept().ToList(); 
                 dg.DataSource = auditList;
             }
             Close();

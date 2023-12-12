@@ -24,23 +24,14 @@ namespace Project_for_DB.Forms
             textBox3.KeyPress += new KeyPressEventHandler(textBox3_KeyPress);
 
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from departament in db.Departaments.AsNoTracking()
-                        select new FromDeptClass()
-                        {
-                            Id = departament.Id,
-                            name = departament.Name,
-                            number = departament.Number,
-
-                        };
-                var auditList = q.ToList();
-
+           
+              
+                var auditList = Metods.ViewDept().ToList(); 
                 comboBox1.DataSource = auditList;
                 comboBox1.DisplayMember = "name";
                 comboBox1.ValueMember = "Id";
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -85,14 +76,7 @@ namespace Project_for_DB.Forms
                         enty.SaveChanges();
                     }
 
-                    var q = from departament in enty.Departaments.AsNoTracking()
-                            select new FromDeptClass()
-                            {
-                                Id = departament.Id,
-                                name = departament.Name,
-                                number = departament.Number,
-                            };
-                    var auditList = q.ToList();
+                    var auditList = Metods.ViewDept().ToList();
                     dg.DataSource = auditList;
                 }
                 Close();

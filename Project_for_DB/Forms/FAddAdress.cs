@@ -60,17 +60,8 @@ namespace Project_for_DB
                 }
 
                 using (DoorContext db = new DoorContext())
-                {
-                    var q = from adress in db.Adresses.AsNoTracking()
-                            select new TempClass()
-                            {
-                                Id = adress.Id,
-                                street = adress.Street,
-                                number = adress.Number,
-                                building = adress.Building
-
-                            };
-                    var auditList = q.ToList();
+                {                   
+                    var auditList = Metods.ViewAdress().ToList(); ;
                     dg.DataSource = auditList;
 
                 }

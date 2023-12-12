@@ -16,21 +16,8 @@ namespace Project_for_DB.Forms
         public FUser()
         {
             InitializeComponent();
-            using (DoorContext db = new DoorContext())
-            {
-                var q = from user in db.Users.AsNoTracking()
-                        join Departament in db.Departaments.AsNoTracking()
-                        on user.DepartamentId equals Departament.Id
-                        select new FromUserClass()
-                        {
-                            login = user.Login,
-                            password = user.Password,
-                            name = user.Name,
-                            sname = user.Sname,
-                            level = user.Level,
-                            departament_name = Departament.Name
-                        };
-                var auditList = q.ToList();
+
+                var auditList = Metods.ViewUser().ToList(); 
                 dataGridView1.DataSource = auditList;
                 dataGridView1.Columns[0].HeaderText = "Логин";
                 dataGridView1.Columns[1].HeaderText = "Пароль";
@@ -39,9 +26,7 @@ namespace Project_for_DB.Forms
                 dataGridView1.Columns[4].HeaderText = "Уровень доступа";
                 dataGridView1.Columns[5].HeaderText = "Отдел";
                 dataGridView1.Columns[6].Visible = false;
-                dataGridView1.ReadOnly = true;
-
-            }
+                dataGridView1.ReadOnly = true;           
         }
 
         private void button1_Click(object sender, EventArgs e)

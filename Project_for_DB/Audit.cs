@@ -13,11 +13,11 @@ public partial class Audit
 
     public int IdStreet { get; set; }
 
-    public string? Login { get; set; }
+    public string Login { get; set; } = null!;
 
     public bool Closed { get; set; }
 
     public virtual Lock Id { get; set; } = null!;
 
-    public virtual User? LoginNavigation { get; set; }
+    public virtual User LoginNavigation { get; set; } = null!;
 }

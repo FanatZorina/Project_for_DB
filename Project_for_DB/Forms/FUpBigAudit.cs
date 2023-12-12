@@ -72,17 +72,7 @@ namespace Project_for_DB.Forms
                 comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
                 comboBox1.Text = Convert.ToString(auditList1[0].login);
 
-                var s = from adress in db.Adresses.AsNoTracking()
-                        select new TempClass()
-                        {
-                            Id = adress.Id,
-                            street = adress.Street,
-                            number = adress.Number,
-                            building = adress.Building,
-                            fulladress = ""
-
-                        };
-                var auditList3 = s.ToList();
+                var auditList3 = Metods.ViewAdress().ToList(); ;
                 foreach (var adress in auditList3)
                 {
                     if (adress.building == null)
@@ -135,7 +125,7 @@ namespace Project_for_DB.Forms
             {
                 if (comboBox2.SelectedValue != null)
                 {
-                    TempClass selectedAddress = (TempClass)comboBox2.SelectedItem;
+                    FromAdressClass selectedAddress = (FromAdressClass)comboBox2.SelectedItem;
 
                     var d = from locks in db.Locks.AsNoTracking()
                             where locks.IdStreet == selectedAddress.Id
