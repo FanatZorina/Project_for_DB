@@ -26,9 +26,13 @@ namespace Project_for_DB.Forms
             InitializeComponent();
             using (DoorContext db = new DoorContext())
             {
+                string result;
 
                 bool cl = db.Locks.AsNoTracking().Where(x => x.Id == iddoor && x.IdStreet == idstreet).Select(x => x.Closed).FirstOrDefault();
-                var result = db.Adresses.Where(x => x.Id == idstreet).Select(a => $" ул.{a.Street} дом.{a.Number} {a.Building}").FirstOrDefault();
+                if (db.Adresses.Where(x => x.Id == idstreet).Select(a => a.Building).FirstOrDefault() == null)
+                    result = db.Adresses.Where(x => x.Id == idstreet).Select(a => $" ул.{a.Street} дом {a.Number} ").FirstOrDefault();
+                else
+                    result = db.Adresses.Where(x => x.Id == idstreet).Select(a => $" ул.{a.Street} дом {a.Number} строение {a.Building}").FirstOrDefault();
                 if (cl == true)
                 {
                     button1.Visible = true;
@@ -73,29 +77,29 @@ namespace Project_for_DB.Forms
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            
-                using (DoorContext db = new DoorContext())
+
+            using (DoorContext db = new DoorContext())
+            {
+
+                Audit adudit = new Audit()
                 {
-                    
-                    Audit adudit = new Audit()
-                    {
-                        Date = DateTime.Now,
-                        IdDoor = giddoor,
-                        IdStreet = gidstreet,
-                        Login = glogin,
-                        Closed = false
-                    };                  
-                    db.Audits.Add(adudit);
-                    var temp1 = db.Locks.FirstOrDefault(s => s.Id == giddoor && s.IdStreet == gidstreet);
-                    if (temp1 != null)
-                    {
-                        temp1.Closed = true;
-                        db.Locks.Update(temp1);
-                        db.SaveChanges();
-                    }
+                    Date = DateTime.Now,
+                    IdDoor = giddoor,
+                    IdStreet = gidstreet,
+                    Login = glogin,
+                    Closed = false
+                };
+                db.Audits.Add(adudit);
+                var temp1 = db.Locks.FirstOrDefault(s => s.Id == giddoor && s.IdStreet == gidstreet);
+                if (temp1 != null)
+                {
+                    temp1.Closed = true;
+                    db.Locks.Update(temp1);
                     db.SaveChanges();
-            }         
-                Close();           
+                }
+                db.SaveChanges();
+            }
+            Close();
         }
         private void button3_Click(object sender, EventArgs e)
         {

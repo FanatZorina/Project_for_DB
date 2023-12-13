@@ -71,9 +71,17 @@ namespace Project_for_DB
                     FromAdressClass selectedlock = (FromAdressClass)comboBox1.SelectedItem;
                     if (enty.Locks.AsNoTracking().Where(x => x.IdStreet == selectedlock.Id && x.Id == Convert.ToInt32(textBox3.Text)).FirstOrDefault() != null)
                     {
-                        OpenOrClose ooc = new OpenOrClose(textBox1.Text, Convert.ToInt32(textBox3.Text), selectedlock.Id);
-                        ooc.Tag = this;                     
-                        ooc.Show(this);
+                        
+                        if (enty.Users.AsNoTracking().Where(x => x.Login == textBox1.Text && x.Password == textBox2.Text).Select(x => x.Level).FirstOrDefault() >= enty.Locks.AsNoTracking().Where(x => x.IdStreet == selectedlock.Id && x.Id == Convert.ToInt32(textBox3.Text)).Select(x => x.Level).FirstOrDefault())
+                        {
+                            OpenOrClose ooc = new OpenOrClose(textBox1.Text, Convert.ToInt32(textBox3.Text), selectedlock.Id);
+                            ooc.Tag = this;
+                            ooc.Show(this);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Не хватает прав доступа");
+                        };
                     }
                     else
                     { MessageBox.Show("Неверный адрес или номер двери"); };
