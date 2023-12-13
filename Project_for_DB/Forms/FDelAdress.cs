@@ -95,9 +95,7 @@ namespace Project_for_DB
         private void button2_Click(object sender, EventArgs e)
         {
             using (DoorContext enty = new DoorContext())
-            {
-               
-
+            {             
                 List<int> doors = enty.Locks.AsNoTracking().Where(x => x.IdStreet == Convert.ToInt32(textBox1.Text)).Select(x => x.IdStreet).ToList();
                 foreach (int door in doors)
                 {
@@ -121,9 +119,7 @@ namespace Project_for_DB
 
                             };
                     var auditList = q.ToList();
-                    dg.DataSource = auditList;
-
-                
+                    dg.DataSource = auditList;              
             }
             Close();
         }

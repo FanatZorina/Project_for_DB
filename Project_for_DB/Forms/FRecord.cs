@@ -17,16 +17,16 @@ namespace Project_for_DB.Forms
         {
             InitializeComponent();
 
-                var auditList = Metods.ViewRecord().ToList();
-                dataGridView1.DataSource = auditList;
-                dataGridView1.Columns[0].HeaderText = "Номер записи";
-                dataGridView1.Columns[1].HeaderText = "Дата";
-                dataGridView1.Columns[2].HeaderText = "Дверь";
-                dataGridView1.Columns[3].HeaderText = "Адрес";
-                dataGridView1.Columns[4].HeaderText = "Логин";
-                dataGridView1.Columns[5].HeaderText = "Закрыто";
-                dataGridView1.ReadOnly = true;
-            
+            var auditList = Metods.ViewRecord().ToList();
+            dataGridView1.DataSource = auditList;
+            dataGridView1.Columns[0].HeaderText = "Номер записи";
+            dataGridView1.Columns[1].HeaderText = "Дата";
+            dataGridView1.Columns[2].HeaderText = "Дверь";
+            dataGridView1.Columns[3].HeaderText = "Адрес";
+            dataGridView1.Columns[4].HeaderText = "Логин";
+            dataGridView1.Columns[5].HeaderText = "Закрыто";
+            dataGridView1.ReadOnly = true;
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -41,28 +41,28 @@ namespace Project_for_DB.Forms
             Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            FAddRecord faddept = new FAddRecord();
-            faddept.Tag = this;
-            faddept.dg = this.dataGridView1;
-            faddept.Show(this);
+            FAddRecord fadrecord = new FAddRecord();
+            fadrecord.Tag = this;
+            fadrecord.dg = this.dataGridView1;
+            fadrecord.Show(this);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
         {
-            FUpRecord faddept = new FUpRecord();
-            faddept.Tag = this;
-            faddept.dg = this.dataGridView1;
-            faddept.Show(this);
+            FUpRecord fuprecord = new FUpRecord();
+            fuprecord.Tag = this;
+            fuprecord.dg = this.dataGridView1;
+            fuprecord.Show(this);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
-            FAddDept faddept = new FAddDept();
-            faddept.Tag = this;
-            faddept.dg = this.dataGridView1;
-            faddept.Show(this);
+            FDelRecord fdelrecord = new FDelRecord();
+            fdelrecord.Tag = this;
+            fdelrecord.dg = this.dataGridView1;
+            fdelrecord.Show(this);
         }
     }
 }

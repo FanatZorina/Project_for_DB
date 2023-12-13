@@ -59,13 +59,8 @@ namespace Project_for_DB.Forms
                 textBox1.Text = Convert.ToString(auditList1[0].number);
                 textBox8.Text = Convert.ToString(auditList1[0].date);
 
-                var u = from user in db.Users.AsNoTracking()
-                        select new FromUserClass()
-                        {
-                            login = user.Login,
-
-                        };
-                var auditList2 = u.ToList();
+                
+                var auditList2 =Metods.ViewUser().ToList();
                 comboBox1.DataSource = auditList2;
                 comboBox1.DisplayMember = "login";
                 comboBox1.ValueMember = "login";

@@ -32,9 +32,7 @@ namespace Project_for_DB
         public int idstreet { get; set; }
         public string login { get; set; }
         public bool closed { get; set; }
-
-
-
+        public string? fulladress { get; set; }
     }
     public class FromAdressClass
     {
@@ -68,10 +66,8 @@ namespace Project_for_DB
         public string name { get; set; }
         public string sname { get; set; }
         public int level { get; set; }
-
         public string departament_name { get; set; }
         public int departament_id { get; set; }
-
 
     }
 }

@@ -59,34 +59,18 @@ namespace Project_for_DB.Forms
                     int intlock = (int)comboBox2.SelectedItem;
                     Lock locks = new Lock()
                     {
-
                         Id = Convert.ToInt32(textBox1.Text),
                         IdStreet = selectedlock.Id,
                         Level = intlock,
                         Closed = checkBox1.Checked
-
                     };
                     enty.Locks.Add(locks);
                     enty.SaveChanges();
-
                 }
-
                 using (DoorContext db = new DoorContext())
-                {
-                    var q = from Lock in db.Locks.AsNoTracking()
-                            join Adress in db.Adresses.AsNoTracking()
-                            on Lock.IdStreet equals Adress.Id
-                            select new FromLockClass()
-                            {
-                                Id = Lock.Id,
-                                Id_street = Lock.IdStreet,
-                                Level = Lock.Level,
-                                Closed = Lock.Closed,
-                                fulladress = Convert.ToString("ул." + Adress.Street + " дом." + Adress.Number + " " + Adress.Building)
-                            };
-                    var auditList = q.ToList();
+                {                
+                    var auditList = Metods.ViewLock().ToList();
                     dg.DataSource = auditList;
-
                 }
                 Close();
             }
